@@ -1,0 +1,11 @@
+config {
+  type: "view",
+  schema: "valevista_consumption"
+}
+SELECT
+  rut_beneficiario,
+  nombre_beneficiario,
+  COUNT(id_vale_vista) as total_documentos,
+  SUM(monto_clp) as monto_total_acumulado
+FROM ${ref("std_valevista")}
+GROUP BY 1, 2
