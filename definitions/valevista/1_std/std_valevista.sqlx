@@ -1,0 +1,18 @@
+config {
+  type: "table",
+  schema: "valevista_std",
+  assertions: {
+    uniqueKey: ["id_vale_vista"],
+    nonNull: ["rut_beneficiario", "monto_clp"]
+  }
+}
+SELECT
+  CAST(NUMERO AS STRING) as id_vale_vista,
+  TRIM(RUT_BENEFICIA) as rut_beneficiario,
+  UPPER(BENEFICIA) as nombre_beneficiario,
+  CAST(TRIM(VALOR) AS FLOAT64) as monto_clp,
+  SAFE.PARSE_DATE('%Y%m%d', CAST(FECHA_EMI AS STRING)) as fecha_emision,
+  TRIM(ESTADO) as estado_valevista,
+  CUENTA as nro_cuenta
+FROM ${ref("maestro_valevista")}
+WHERE CANCELADO = 'N'
