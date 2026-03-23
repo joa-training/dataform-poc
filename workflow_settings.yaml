@@ -1,4 +1,4 @@
-defaultProjectConfig:
-  defaultDatabase: project-127a1453-fe40-4b42-89a
-  defaultLocation: US
-  assertionSchema: dataform_assertions
+defaultLocation: "southamerica-west1"
+projectConfig:
+  defaultDatabase: "project-127a1453-fe40-4b42-89a"
+  assertionSchema: "dataform_assertions"
