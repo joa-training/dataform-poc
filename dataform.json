@@ -1,0 +1,7 @@
+{
+  "defaultSchema": "dataset",
+  "assertionSchema": "dataform_assertions",
+  "warehouse": "bigquery",
+  "defaultDatabase": "prueba-bice-01",
+  "defaultLocation": "southamerica-west1"
+}
