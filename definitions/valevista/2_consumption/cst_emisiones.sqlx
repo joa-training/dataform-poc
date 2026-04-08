@@ -1,6 +1,7 @@
 config {
   type: "table",
   schema: "valevista_consumption",
+  name: "CST_BO_VALE_VISTA_EMISIONES_VV",
   bigquery: {
     partitionBy: "DATE(FEC_INGESTA)",
     clusterBy: ["WS_NUMERO", "WS_FECHA_ING", "WS_CTA_CBLE", "WS_RUT_BENEFICIARIO"]
@@ -31,4 +32,4 @@ SELECT
   TRIM(RUT_BENEFICIA) AS WS_RUT_BENEFICIARIO,
   TRIM(RUT_TOMADOR) AS WS_RUT_TOMADOR,
   CAST(FECHA_PAGO AS INT64) AS WS_FECHA_PAGO
-FROM ${ref("std_emisiones")}
+FROM ${ref("STD_OPF_VALE_VISTA")}
