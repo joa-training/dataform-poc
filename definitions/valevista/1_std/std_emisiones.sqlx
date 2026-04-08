@@ -1,0 +1,34 @@
+config {
+  type: "table",
+  schema: "valevista_std",
+  assertions: {
+    uniqueKey: ["SUCUR_EMI", "NUMERO"],
+    nonNull: ["RUT_BENEFICIA", "VALOR"]
+  }
+}
+
+SELECT
+  FEC_INGESTA,
+  SUCUR_EMI,
+  NUMERO,
+  SUCUR_ING,
+  TRANSACCION,
+  FECHA_ING,
+  FECHA_EMI,
+  VALOR,
+  BENEFICIA,
+  ORIG_SECT,
+  COD_BANCO,
+  TOMADOR,
+  ORDEN_FAVOR,
+  TIPO_INGR,
+  CTA_CTBLE,
+  CANCELADO,
+  ONP,
+  CUENTA,
+  FACTURA,
+  FORMA_PAG,
+  RUT_BENEFICIA,
+  RUT_TOMADOR,
+  FECHA_PAGO
+FROM ${ref("raw_Maestro_VV")}
