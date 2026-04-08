@@ -1,4 +1,4 @@
 defaultLocation: "southamerica-west1"
 defaultProject: "prueba-bice-01"
-defaultDataset: "dataform_staging"
+defaultDataset: "dataset"
 assertionSchema: "dataform_assertions"
