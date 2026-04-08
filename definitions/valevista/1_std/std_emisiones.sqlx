@@ -38,4 +38,4 @@ SELECT
   FECHA_PAGO
 FROM ${ref("HIST_OPF_VALE_VISTA")}
 -- Filtro para carga de 1 solo día (puedes comentarlo después)
-WHERE DATE(FEC_INGESTA) = "2026-04-08"
+WHERE DATE(FEC_INGESTA) = "2026-04-07"
