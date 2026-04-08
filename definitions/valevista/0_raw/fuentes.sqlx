@@ -1,6 +1,0 @@
-config {
-  type: "declaration",
-  database: "project-127a1453-fe40-4b42-89a",
-  schema: "valevista_raw",
-  name: "maestro_valevista"
-}
