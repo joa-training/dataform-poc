@@ -1,7 +1,11 @@
 config {
   type: "table",
-  schema: "dataset",
+  schema: "valevista_std",
   name: "STD_OPF_VALE_VISTA",
+  bigquery: {
+    partitionBy: "DATE(FEC_INGESTA)",
+    clusterBy: ["NUMERO", "FECHA_EMI"]
+  },
   assertions: {
     uniqueKey: ["SUCUR_EMI", "NUMERO"],
     nonNull: ["RUT_BENEFICIA", "VALOR"]
@@ -33,3 +37,5 @@ SELECT
   RUT_TOMADOR,
   FECHA_PAGO
 FROM ${ref("HIST_OPF_VALE_VISTA")}
+-- Filtro para carga de 1 solo día (puedes comentarlo después)
+WHERE DATE(FEC_INGESTA) = "2026-04-08"
