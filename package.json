@@ -1,5 +1,5 @@
 {
-  "name": "dataform-poc",
+  "name": "dataform-repo",
   "dependencies": {
     "@dataform/core": "3.0.0"
   }
