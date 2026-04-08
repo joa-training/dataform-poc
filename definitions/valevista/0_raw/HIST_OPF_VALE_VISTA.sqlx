@@ -1,8 +1,11 @@
 config {
   type: "table",
-  schema: "dataset",
+  schema: "valevista_raw",
   name: "HIST_OPF_VALE_VISTA",
-  description: "Capa histórica Vale Vista"
+  bigquery: {
+    partitionBy: "DATE(FEC_INGESTA)",
+    clusterBy: ["NUMERO", "FECHA_EMI"]
+  }
 }
 
 SELECT
