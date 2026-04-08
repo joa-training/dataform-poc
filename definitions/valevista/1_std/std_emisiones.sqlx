@@ -31,4 +31,4 @@ SELECT
   RUT_BENEFICIA,
   RUT_TOMADOR,
   FECHA_PAGO
-FROM ${ref("raw_Maestro_VV")}
+FROM ${ref("RAW_OPF_VALE_VISTA")}
