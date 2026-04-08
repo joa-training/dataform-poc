@@ -1,6 +1,6 @@
 config {
   type: "table",
-  schema: "valevista_raw",
+  schema: "dataset",
   name: "HIST_OPF_VALE_VISTA",
   description: "Capa histórica Vale Vista"
 }
