@@ -3,7 +3,7 @@ config {
   schema: "valevista_std",
   name: "STD_OPF_VALE_VISTA",
   bigquery: {
-    partitionBy: "DATETIME(FEC_INGESTA)",
+    partitionBy: "DATE(FEC_INGESTA)",
     clusterBy: ["NUMERO", "FECHA_EMI"]
   },
   assertions: {
@@ -13,28 +13,6 @@ config {
 }
 
 SELECT
-  FEC_INGESTA,
-  SUCUR_EMI,
-  NUMERO,
-  SUCUR_ING,
-  TRANSACCION,
-  FECHA_ING,
-  FECHA_EMI,
-  VALOR,
-  BENEFICIA,
-  ORIG_SECT,
-  COD_BANCO,
-  TOMADOR,
-  ORDEN_FAVOR,
-  TIPO_INGR,
-  CTA_CTBLE,
-  CANCELADO,
-  ONP,
-  CUENTA,
-  FACTURA,
-  FORMA_PAG,
-  RUT_BENEFICIA,
-  RUT_TOMADOR,
-  FECHA_PAGO
+  *
 FROM ${ref("HIST_OPF_VALE_VISTA")}
-WHERE DATETIME(FEC_INGESTA) = "2026-04-07"
+WHERE DATE(FEC_INGESTA) = "2026-04-07"
