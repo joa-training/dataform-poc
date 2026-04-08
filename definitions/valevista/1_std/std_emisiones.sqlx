@@ -1,6 +1,6 @@
 config {
   type: "table",
-  schema: "valevista_std",
+  schema: "dataset",
   name: "STD_OPF_VALE_VISTA",
   bigquery: {
     partitionBy: "DATE(FEC_INGESTA)",
