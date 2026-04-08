@@ -1,0 +1,6 @@
+config {
+  type: "declaration",
+  database: "prueba-bice-01",
+  schema: "dataset",
+  name: "RAW_BO_VALE_VISTA_EMISIONES_VV_YYYYMM"
+}
