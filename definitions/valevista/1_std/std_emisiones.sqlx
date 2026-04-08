@@ -3,7 +3,7 @@ config {
   schema: "valevista_std",
   name: "STD_OPF_VALE_VISTA",
   bigquery: {
-    partitionBy: "DATE(FEC_INGESTA)",
+    partitionBy: "DATETIME(FEC_INGESTA)",
     clusterBy: ["NUMERO", "FECHA_EMI"]
   },
   assertions: {
