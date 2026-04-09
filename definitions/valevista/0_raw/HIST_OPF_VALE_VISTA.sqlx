@@ -1,5 +1,5 @@
 config {
-  type: "table",
+  type: "incremental",
   schema: "dataset",
   name: "HIST_OPF_VALE_VISTA",
   bigquery: {
@@ -11,3 +11,7 @@ config {
 SELECT
   *
 FROM ${ref("RAW_OPF_VALE_VISTA")}
+
+${when(incremental(), 
+  `WHERE FEC_INGESTA > (SELECT MAX(FEC_INGESTA) FROM ${self()})` 
+)}
