@@ -6,7 +6,7 @@ config {
     partitionBy: "DATE(FEC_INGESTA)"
   },
   assertions: {
-    --uniqueKey: ["SUCUR_EMI", "NUMERO"],
+    //uniqueKey: ["SUCUR_EMI", "NUMERO"],
     nonNull: ["FEC_INGESTA", "RUT_BENEFICIA", "VALOR", "NUMERO"]
   }
 }
