@@ -1,18 +1,20 @@
 config {
-  type: "table",
+  type: "incremental",
   schema: "dataset",
   name: "STD_OPF_VALE_VISTA",
   bigquery: {
-    partitionBy: "DATE(FEC_INGESTA)",
-    clusterBy: ["NUMERO", "FECHA_EMI"]
+    partitionBy: "DATE(FEC_INGESTA)"
   },
   assertions: {
     uniqueKey: ["SUCUR_EMI", "NUMERO"],
-    nonNull: ["RUT_BENEFICIA", "VALOR"]
+    nonNull: ["FEC_INGESTA", "RUT_BENEFICIA", "VALOR", "NUMERO"]
   }
 }
 
 SELECT
   *
 FROM ${ref("HIST_OPF_VALE_VISTA")}
-WHERE DATE(FEC_INGESTA) = "2026-04-07"
+
+${when(incremental(), 
+  `WHERE FEC_INGESTA > (SELECT MAX(FEC_INGESTA) FROM ${self()})` 
+)}
