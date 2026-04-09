@@ -1,7 +1,7 @@
 config {
   type: "incremental",
   schema: "dataset",
-  name: "CST_BO_VALE_VISTA_EMISIONES_VV_YYYMM",
+  name: "CST_BO_VALE_VISTA_EMISIONES_VV_YYYYMM",
   bigquery: {
     partitionBy: "DATE(FEC_INGESTA)",
     clusterBy: ["WS_NUMERO", "WS_FECHA_ING", "WS_CTA_CBLE", "WS_RUT_BENEFICIARIO"]
