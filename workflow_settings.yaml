@@ -1,4 +1,6 @@
-defaultLocation: "southamerica-west1"
-defaultProject: "prueba-bice-01"
-defaultDataset: "dataset"
+defaultProject: prueba-bice-01
+defaultLocation: southamerica-west1
+defaultDataset: dataset
+
+  
 

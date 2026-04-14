@@ -1,6 +1,6 @@
 config {
   type: "incremental",
-  schema: "dataset",
+  schema: constants.DEST_STD,
   name: "STD_OPF_VALE_VISTA",
   bigquery: {
     partitionBy: "DATE(FEC_INGESTA)"
@@ -13,8 +13,5 @@ config {
 
 SELECT
   *
-FROM ${ref("HIST_OPF_VALE_VISTA")}
-
-${when(incremental(), 
-  `WHERE FEC_INGESTA > (SELECT MAX(FEC_INGESTA) FROM ${self()})` 
-)}
+FROM ${ref({ schema: constants.DEST_RAW_DIARIA, name: "RAW_DIARIA_OPF_VALE_VISTA" })}
+WHERE DATE(FEC_INGESTA) = DATE("${constants.FECHA_EJE}")

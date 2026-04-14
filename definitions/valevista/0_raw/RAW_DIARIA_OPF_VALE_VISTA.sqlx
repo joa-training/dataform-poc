@@ -1,8 +1,8 @@
 
 config {
   type: "incremental",
-  schema: constants.DEST_HIST,
-  name: "HIST_OPF_VALE_VISTA",
+  schema: constants.DEST_RAW_DIARIA,
+  name: "RAW_DIARIA_OPF_VALE_VISTA",
   bigquery: {
     partitionBy: "DATE(FEC_INGESTA)",
     clusterBy: ["NUMERO", "FECHA_EMI"]
@@ -11,6 +11,7 @@ config {
 
 SELECT
   *
-FROM ${ref({ schema: constants.DEST_RAW_DIARIA, name: "RAW_DIARIA_OPF_VALE_VISTA" })}
+FROM
+`${constants.ORIG_SCHEMA}.RAW_OPF_VALE_VISTA`
 WHERE DATE(FEC_INGESTA) = DATE("${constants.FECHA_EJE}")
    
