@@ -1,6 +1,6 @@
 config {
   type: "table",
-  schema: "${constants.DEST_CST}",
+  schema: constants.DEST_CST,
   name: "aaaammddLGSOPERACIONESME",
   bigquery: {
     partitionBy: "DATE(FEC_INGESTA)",
