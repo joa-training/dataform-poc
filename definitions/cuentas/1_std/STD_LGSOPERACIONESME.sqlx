@@ -1,0 +1,14 @@
+config {
+  type: "table",
+  schema: "cuentas_std",
+  name: "STD_LGSOPERACIONESME",
+  bigquery: {
+    partitionBy: "DATE(FEC_INGESTA)"
+  },
+  assertions: {
+    uniqueKey: ["CUENTA"],
+    nonNull: ["FEC_INGESTA", "RUT_TIT", "CUENTA"]
+  }
+}
+
+SELECT * FROM ${ref("OPF_CASA_MAS")}

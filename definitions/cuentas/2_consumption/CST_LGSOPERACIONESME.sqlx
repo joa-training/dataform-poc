@@ -1,0 +1,23 @@
+config {
+  type: "table",
+  schema: "cuentas_consumption",
+  name: "aaaammddLGSOPERACIONESME",
+  bigquery: {
+    partitionBy: "DATE(FEC_INGESTA)",
+    clusterBy: ["CODIGO", "SUCURSAL"]
+  }
+}
+
+SELECT
+  CAST(FEC_INGESTA AS TIMESTAMP) AS FEC_INGESTA,
+  -- Separación y limpieza del RUT_TIT (Ej: 12345678-9)
+  TRIM(SPLIT(CAST(RUT_TIT AS STRING), '-')[SAFE_OFFSET(0)]) AS NUMRUT,
+  TRIM(SPLIT(CAST(RUT_TIT AS STRING), '-')[SAFE_OFFSET(1)]) AS DIGRUT,
+  -- Mapeo de campos finales hacia la interfaz
+  TRIM(CAST(CUENTA AS STRING)) AS CODIGO,
+  CAST(AC_OPEN_DT AS STRING) AS FECHA_INI,
+  CAST(AC_CLOSE_DT AS STRING) AS FECHA_TER,
+  TRIM(CAST(MOCIERM AS STRING)) AS CAUSA_CIE,
+  TRIM(CAST(OFICINA AS STRING)) AS SUCURSAL
+
+FROM ${ref("STD_LGSOPERACIONESME")}
