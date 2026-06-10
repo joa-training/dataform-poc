@@ -1,6 +1,8 @@
-defaultProject: prueba-bice-01
-defaultLocation: southamerica-west1
-defaultDataset: dataset
+defaultProject: test-hackaton
+defaultDataset: cuentas_std
+defaultLocation: us-central1
+# variables de entorno
+vars: {}
 
   
 
