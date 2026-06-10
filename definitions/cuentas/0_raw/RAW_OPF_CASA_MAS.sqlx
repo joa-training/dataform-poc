@@ -1,6 +1,6 @@
 config {
   type: "declaration",
-  database: "prueba-bice-01",
-  schema: "dataset_maestros", 
+  database: "test-hackaton",
+  schema: "${constants.ORIG_SCHEMA}",
   name: "OPF_CASA_MAS"
 }

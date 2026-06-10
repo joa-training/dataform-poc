@@ -1,5 +1,6 @@
 {
-  "name": "dataform-repo",
+  "name": "dataform-banco-fase2",
+  "version": "1.0.0",
   "dependencies": {
     "@dataform/core": "3.0.0"
   }

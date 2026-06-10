@@ -1,7 +1,0 @@
-
-config {
-  type: "declaration",
-  database: "prueba-bice-01",
-  schema: constants.ORIG_SCHEMA,
-  name: "RAW_OPF_VALE_VISTA"
-}

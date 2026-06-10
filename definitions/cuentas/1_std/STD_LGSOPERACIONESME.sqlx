@@ -1,6 +1,6 @@
 config {
   type: "table",
-  schema: "cuentas_std",
+  schema: "${constants.DEST_STD}",
   name: "STD_LGSOPERACIONESME",
   bigquery: {
     partitionBy: "DATE(FEC_INGESTA)"
@@ -11,4 +11,15 @@ config {
   }
 }
 
-SELECT * FROM ${ref("OPF_CASA_MAS")}
+SELECT
+  FEC_INGESTA, --revisar si existe este campo en la maestro
+  RUT_TIT,
+  CUENTA,
+  AC_OPEN_DT,
+  AC_CLOSE_DT,
+  MOCIERM,
+  OFICINA,
+  MONEDA
+
+FROM ${ref("RAW_OPF_CASA_MAS")}
+WHERE MONEDA = "EUR" --definir filtro correcto para Euro
