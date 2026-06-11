@@ -1,6 +1,6 @@
 config {
   type: "declaration",
-  database: constants.PROJECT_ID, 
-  schema: constants.DEST_RAW, 
+  database: "test-hackaton-484418", 
+  schema: "raw_interfaces", 
   name: "INTERFAZ_ONPREM_CUENTAS"
 }
