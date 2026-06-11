@@ -3,16 +3,18 @@ config {
   schema: constants.DEST_STD,
   name: "STD_LGSOPERACIONESME",
   bigquery: {
-    partitionBy: "DATE(FEC_INGESTA)"
+    partitionBy: "DATE(FECHA_PROCESO)"
   },
   assertions: {
     uniqueKey: ["CUENTA"],
-    nonNull: ["FEC_INGESTA", "RUT_TIT", "CUENTA"]
+    nonNull: ["FECHA_PROCESO", "RUT_TIT", "CUENTA"]
   }
 }
+FECHA_PROCESO
+
 
 SELECT
-  FEC_INGESTA, --revisar si existe este campo en la maestro
+  FECHA_PROCESO,
   RUT_TIT,
   CUENTA,
   AC_OPEN_DT,
