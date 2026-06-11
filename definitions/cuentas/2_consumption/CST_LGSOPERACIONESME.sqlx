@@ -4,7 +4,7 @@ config {
   name: "aaaammddLGSOPERACIONESME",
   bigquery: {
     partitionBy: "DATE(FECHA_PROCESO)",
-    --clusterBy: ["CODIGO", "SUCURSAL"]
+    -- clusterBy: ["CODIGO", "SUCURSAL"]
   }
 }
 -- Parte 1: Datos del maestro desde STD
