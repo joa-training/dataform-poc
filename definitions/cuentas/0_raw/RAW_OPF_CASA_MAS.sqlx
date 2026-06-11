@@ -4,3 +4,4 @@ config {
   schema: constants.ORIG_SCHEMA,
   name: "MAESTRO_CUENTAS" --Nombre de la tabla en std_banking
 }
+
