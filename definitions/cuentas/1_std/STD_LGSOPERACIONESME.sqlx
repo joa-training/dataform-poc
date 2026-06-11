@@ -10,8 +10,6 @@ config {
     nonNull: ["FECHA_PROCESO", "RUT_TIT", "CUENTA"]
   }
 }
-FECHA_PROCESO
-
 
 SELECT
   FECHA_PROCESO,
@@ -24,4 +22,4 @@ SELECT
   MONEDA
 
 FROM ${ref("MAESTRO_CUENTAS")}
-WHERE MONEDA = "EUR" --definir filtro correcto para Euro
+WHERE MONEDA = 3
