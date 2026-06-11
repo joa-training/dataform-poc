@@ -1,7 +1,6 @@
 config {
   type: "declaration",
-  database: constants.PROJECT_ID,
-  schema: constants.ORIG_SCHEMA,
-  name: "MAESTRO_CUENTAS" --Nombre de la tabla en std_banking
+  database: "test-hackaton-484418",
+  schema: "std_banking",
+  name: "MAESTRO_CUENTAS"
 }
-
