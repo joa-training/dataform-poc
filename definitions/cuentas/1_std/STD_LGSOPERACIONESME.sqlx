@@ -2,24 +2,32 @@ config {
   type: "table",
   schema: constants.DEST_STD,
   name: "STD_LGSOPERACIONESME",
+  tags: ["aaaammddLGSOPERACIONESME_std", "std"],
+  description: "STD LGSOPERACIONESME: estandariza la interfaz ON-PREMISE cargada en raw desde landing (raw_aaaammddLGSOPERACIONESME_daily). Limpia campos, separa el dígito verificador del RUT y normaliza nombres de columna. El cruce con el maestro se hace recién en el CST (consumo).",
   bigquery: {
     partitionBy: "DATE(FECHA_PROCESO)"
   },
   assertions: {
-    uniqueKey: ["CUENTA"],
-    nonNull: ["FECHA_PROCESO", "RUT_TIT", "CUENTA"]
+    uniqueKey: ["NUMRUT", "CUENTA"],
+    nonNull: ["FECHA_PROCESO", "NUMRUT", "CUENTA"]
   }
 }
 
+-- ════════════════════════════════════════════════════════════════
+-- Fuente: interfaz on-premise cargada por la ingesta fixed-width.
+--   load_date -> FECHA_PROCESO
+--   La interfaz conserva sus nombres nativos (CUENTA, SUCURSAL, etc.).
+--   NUMRUT del archivo viene como <numero><DV> concatenado (sin guión):
+--   se separa el último carácter como dígito verificador (DIGRUT).
+-- ════════════════════════════════════════════════════════════════
 SELECT
-  FECHA_PROCESO,
-  RUT_TIT,
-  CUENTA,
-  AC_OPEN_DT,
-  AC_CLOSE_DT,
-  MOCIERM,
-  OFICINA,
-  MONEDA
-
-FROM ${ref("MAESTRO_CUENTAS")}
-WHERE MONEDA = 3
+  CAST(load_date AS DATE)                                        AS FECHA_PROCESO,
+  SUBSTR(TRIM(NUMRUT), 1, GREATEST(LENGTH(TRIM(NUMRUT)) - 1, 0)) AS NUMRUT,
+  RIGHT(TRIM(NUMRUT), 1)                                         AS DIGRUT,
+  TRIM(CUENTA)                                                   AS CUENTA,
+  TRIM(FECHA_INI)                                                AS FECHA_INI,
+  TRIM(FECHA_TER)                                                AS FECHA_TER,
+  TRIM(CAUSA_CIE)                                                AS CAUSA_CIE,
+  TRIM(SUCURSAL)                                                 AS SUCURSAL
+FROM ${ref("raw_aaaammddLGSOPERACIONESME_daily")}
+ 

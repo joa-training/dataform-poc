@@ -2,35 +2,49 @@ config {
   type: "table",
   schema: constants.DEST_CST,
   name: "aaaammddLGSOPERACIONESME",
+  tags: ["aaaammddLGSOPERACIONESME_consumo_cst", "cst"],
+  description: "CST LGSOPERACIONESME: consolida en consumo el maestro FlexCube + la interfaz on-premise (ya estandarizada en STD) vía UNION ALL. Modelo listo para exportar a SFTP.",
   bigquery: {
     partitionBy: "DATE(FECHA_PROCESO)",
-    // clusterBy: ["CODIGO", "SUCURSAL"]
+    clusterBy: ["CUENTA", "SUCURSAL"]
   }
 }
--- Parte 1: Datos del maestro desde STD
+
+-- ════════════════════════════════════════════════════════════════
+-- PARTE 1: Maestro de cuentas FlexCube — se ADAPTA a los nombres de la interfaz
+--   RUT_TIT viene como "12345678-9" → se separa NUMRUT / DIGRUT por '-'.
+-- ════════════════════════════════════════════════════════════════
 SELECT
   FECHA_PROCESO,
   TRIM(SPLIT(CAST(RUT_TIT AS STRING), '-')[SAFE_OFFSET(0)]) AS NUMRUT,
   TRIM(SPLIT(CAST(RUT_TIT AS STRING), '-')[SAFE_OFFSET(1)]) AS DIGRUT,
-  TRIM(CAST(CUENTA AS STRING)) AS CODIGO,
-  CAST(AC_OPEN_DT AS STRING) AS FECHA_INI,
-  CAST(AC_CLOSE_DT AS STRING) AS FECHA_TER,
-  TRIM(CAST(MOCIERM AS STRING)) AS CAUSA_CIE,
-  TRIM(CAST(OFICINA AS STRING)) AS SUCURSAL
+  TRIM(CAST(CUENTA AS STRING))      AS CUENTA,
+  CAST(AC_OPEN_DT  AS STRING)       AS FECHA_INI,
+  CAST(AC_CLOSE_DT AS STRING)       AS FECHA_TER,
+  TRIM(CAST(MOCIERM AS STRING))     AS CAUSA_CIE,
+  TRIM(CAST(OFICINA AS STRING))     AS SUCURSAL
+FROM ${ref("MAESTRO_CUENTAS")}
+WHERE MONEDA = 3
 
-FROM ${ref("STD_LGSOPERACIONESME")}
-
+-- ════════════════════════════════════════════════════════════════
+-- PARTE 2: Interfaz On-Premise, ya estandarizada en STD.
+--   Se incluye SOLO mientras la interfaz siga en el flujo. El flag
+--   'interface_enabled' viene de compilation_vars (YAML de consumo):
+--     "true"  (default) → maestro + interfaz
+--     "false"           → la interfaz queda fuera; solo se consume del maestro
+-- ════════════════════════════════════════════════════════════════
+${when(dataform.projectConfig.vars.interface_enabled !== "false", `
 UNION ALL
 
--- PARTE 2: Datos de Interfaz On-Premise desde RAW
 SELECT
   FECHA_PROCESO,
   NUMRUT,
   DIGRUT,
-  CODIGO,
+  CUENTA,
   FECHA_INI,
   FECHA_TER,
   CAUSA_CIE,
   SUCURSAL
-
-FROM ${ref("INTERFAZ_ONPREM_CUENTAS")}
+FROM ${ref("STD_LGSOPERACIONESME")}
+`)}
+ 

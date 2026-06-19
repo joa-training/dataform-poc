@@ -1,0 +1,6 @@
+config {
+  type: "declaration",
+  schema: "raw_banking",
+  name: "raw_aaaammddLGSOPERACIONESME_daily",
+  description: "Interfaz On-Premise LGSOPERACIONESME: salida de la ingesta fixed-width (landing -> raw), producida por el DAG dag_aaaammddLGSOPERACIONESME_transform. Declaración por interfaz (una por cada interfaz on-premise). Columnas: NUMRUT, CUENTA, FECHA_INI, FECHA_TER, CAUSA_CIE, SUCURSAL, load_date."
+}
