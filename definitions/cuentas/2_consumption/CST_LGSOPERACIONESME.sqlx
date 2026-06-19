@@ -3,19 +3,23 @@ config {
   schema: constants.DEST_CST,
   name: "aaaammddLGSOPERACIONESME",
   tags: ["aaaammddLGSOPERACIONESME_consumo_cst", "cst"],
-  description: "CST LGSOPERACIONESME: consolida en consumo el maestro FlexCube + la interfaz on-premise (ya estandarizada en STD) vía UNION ALL. Modelo listo para exportar a SFTP.",
+  description: "CST LGSOPERACIONESME: consolida en consumo el maestro FlexCube (std_banking.MAESTRO_CUENTAS) + la interfaz on-premise (ya estandarizada en STD) vía UNION ALL. La salida tiene la forma de la interfaz; el maestro la complementa con filas. Modelo listo para exportar a SFTP.",
   bigquery: {
-    partitionBy: "DATE(FECHA_PROCESO)",
+    partitionBy: "FECHA_PROCESO",
     clusterBy: ["CUENTA", "SUCURSAL"]
   }
 }
 
 -- ════════════════════════════════════════════════════════════════
--- PARTE 1: Maestro de cuentas FlexCube — se ADAPTA a los nombres de la interfaz
---   RUT_TIT viene como "12345678-9" → se separa NUMRUT / DIGRUT por '-'.
+-- PARTE 1: Maestro de cuentas FlexCube (std_banking) — se ADAPTA a los
+--   nombres de la interfaz. Notas de tipos (maestro real):
+--     FECHA_PROCESO DATETIME → CAST a DATE (para alinear con la interfaz)
+--     RUT_TIT       "12345678-9" → SPLIT por '-' en NUMRUT / DIGRUT
+--     CUENTA/OFICINA/MOCIERM INTEGER → CAST a STRING
+--     AC_OPEN_DT/AC_CLOSE_DT INTEGER (AAAAMMDD) → CAST a STRING (mismo formato que la interfaz)
 -- ════════════════════════════════════════════════════════════════
 SELECT
-  FECHA_PROCESO,
+  CAST(FECHA_PROCESO AS DATE)                              AS FECHA_PROCESO,
   TRIM(SPLIT(CAST(RUT_TIT AS STRING), '-')[SAFE_OFFSET(0)]) AS NUMRUT,
   TRIM(SPLIT(CAST(RUT_TIT AS STRING), '-')[SAFE_OFFSET(1)]) AS DIGRUT,
   TRIM(CAST(CUENTA AS STRING))      AS CUENTA,
