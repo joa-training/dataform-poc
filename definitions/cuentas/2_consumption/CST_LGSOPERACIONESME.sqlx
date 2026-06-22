@@ -6,7 +6,7 @@ config {
   description: "CST LGSOPERACIONESME: consolida en consumo el maestro FlexCube (std_banking.MAESTRO_CUENTAS) + la interfaz on-premise (ya estandarizada en STD) vía UNION ALL. La salida tiene la forma de la interfaz; el maestro la complementa con filas. Modelo listo para exportar a SFTP.",
   bigquery: {
     partitionBy: "FECHA_PROCESO",
-    clusterBy: ["CUENTA", "SUCURSAL"]
+    clusterBy: ["CODIGO", "SUCURSAL"]
   }
 }
 

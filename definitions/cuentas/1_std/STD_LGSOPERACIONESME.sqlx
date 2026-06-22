@@ -8,8 +8,8 @@ config {
     partitionBy: "FECHA_PROCESO"
   },
   assertions: {
-    uniqueKey: ["NUMRUT", "CUENTA"],
-    nonNull: ["FECHA_PROCESO", "NUMRUT", "CUENTA"]
+    uniqueKey: ["NUMRUT", "CODIGO"],
+    nonNull: ["FECHA_PROCESO", "NUMRUT", "CODIGO"]
   }
 }
  
@@ -24,7 +24,7 @@ SELECT
   CAST(load_date AS DATE)                                        AS FECHA_PROCESO,
   SUBSTR(TRIM(NUMRUT), 1, GREATEST(LENGTH(TRIM(NUMRUT)) - 1, 0)) AS NUMRUT,
   RIGHT(TRIM(NUMRUT), 1)                                         AS DIGRUT,
-  TRIM(CUENTA)                                                   AS CODIGO,
+  TRIM(CODIGO)                                                   AS CODIGO,
   TRIM(FECHA_INI)                                                AS FECHA_INI,
   TRIM(FECHA_TER)                                                AS FECHA_TER,
   TRIM(CAUSA_CIE)                                                AS CAUSA_CIE,
