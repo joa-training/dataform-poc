@@ -1,0 +1,27 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_SVBFCCD04_RECH_CSV",
+    tags: ["SVBFCCD04_RECH_CSV_std", "std"],
+    
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    SAFE_CAST(FECHADD AS NUMERIC) AS FECHADD,
+		SLASH1,
+		SAFE_CAST(FECHAMM AS NUMERIC) AS FECHAMM,
+		SLASH2,
+		SAFE_CAST(FECHAAA AS NUMERIC) AS FECHAAA,
+		SAFE_CAST(Cta_Cargo AS NUMERIC) AS Cta_Cargo,
+		INSTRNO_1,
+		DOCUMENT_TYPE,
+		SAFE_CAST(INSTRAMT AS NUMERIC) AS INSTRAMT,
+		SAFE_CAST(BENACCOUNT AS NUMERIC) AS BENACCOUNT,
+		CIUDAD_SUCURSAL_CANJE
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_SVBFCCD04_RECH_CSV_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

@@ -1,0 +1,13 @@
+config {
+  type: "incremental",
+  schema: "cst_banking",
+  name: "ONPVV",
+  tags: ["ONPVV_cst", "cst"],
+  bigquery: {
+    partitionBy: "FECHA_PROCESO"
+  }
+}
+
+SELECT *
+FROM `${dataform.projectConfig.defaultDatabase}.std_banking.OPF_CASA_TXN,OPF_VALE_VISTA`
+WHERE CAST(FECHA_PROCESO AS DATE) = DATE('${dataform.projectConfig.vars.process_date}')

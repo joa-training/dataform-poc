@@ -1,0 +1,37 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_CCNMNMTG_H_DAT",
+    tags: ["CCNMNMTG_H_DAT_std", "std"],
+    
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    CUENTA,
+		NOMBRE_CLIENTE,
+		R_U_T_,
+		R_U_T_2,
+		DIR__COM,
+		COM__COM,
+		T_COMERCIAL,
+		DIR__PAR,
+		COM_PAR,
+		T_PARTICULAR,
+		T_M_CTACTE,
+		COD_EJE_,
+		NOMBRE_EJECUTIVO,
+		SAFE_CAST(FEC_APE_ AS NUMERIC) AS FEC_APE_,
+		FEC_ULT_MOV_,
+		TARJETA_REDBANC,
+		SALDO_SUPERIOR_A_UN_MILLON,
+		DES_CARTOLA,
+		FEC_NACIMIENTO,
+		SEGMENTO,
+		SAFE_CAST(S_FECHA_PROCESO AS NUMERIC) AS S_FECHA_PROCESO
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_CCNMNMTG_H_DAT_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

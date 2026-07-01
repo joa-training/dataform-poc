@@ -1,0 +1,26 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_SOL_CIERRE_CTAS_DAT",
+    tags: ["SOL_CIERRE_CTAS_DAT_std", "std"],
+    
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    SAFE_CAST(ACCOUNT_CLASS AS NUMERIC) AS ACCOUNT_CLASS,
+		CUST_NO,
+		SAFE_CAST(BRANCH_CODE AS NUMERIC) AS BRANCH_CODE,
+		SAFE_CAST(CUST_AC_NO AS NUMERIC) AS CUST_AC_NO,
+		REQUEST_FOR_CLOSURE,
+		SAFE_CAST(CLOS_REQ AS NUMERIC) AS CLOS_REQ,
+		REASON_CODE,
+		RECORD_STAT,
+		SAFE_CAST(FIELD_VAL_15 AS NUMERIC) AS FIELD_VAL_15,
+		SAFE_CAST(FIELD_VAL_16 AS NUMERIC) AS FIELD_VAL_16
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_SOL_CIERRE_CTAS_DAT_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

@@ -1,0 +1,38 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_CVICARTAR_TXT",
+    tags: ["CVICARTAR_TXT_std", "std"],
+    
+  uniqueKey: ["RUT-SAL"],
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+    assertions: {
+        
+  uniqueKey: ["RUT-SAL"],
+    }
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    SAFE_CAST(CUENTA_SAL AS NUMERIC) AS CUENTA_SAL,
+		SAFE_CAST(TARJETA_SAL AS NUMERIC) AS TARJETA_SAL,
+		SAFE_CAST(ESTADO_SAL AS NUMERIC) AS ESTADO_SAL,
+		RUT_SAL,
+		NOMBRE_SAL,
+		DIRECC_SAL,
+		COMUNA_SAL,
+		CIUDAD_SAL,
+		ESTCIV_SAL,
+		SAFE_CAST(FECNAC_SAL AS NUMERIC) AS FECNAC_SAL,
+		SAFE_CAST(FONO_SAL AS NUMERIC) AS FONO_SAL,
+		GENERO_SAL,
+		SECECO_SAL,
+		SAFE_CAST(FECAPE_SAL AS NUMERIC) AS FECAPE_SAL,
+		SAFE_CAST(FECCIE_SAL AS NUMERIC) AS FECCIE_SAL,
+		MOTCIE_SAL
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_CVICARTAR_TXT_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

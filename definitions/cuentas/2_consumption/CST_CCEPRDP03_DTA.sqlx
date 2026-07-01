@@ -1,9 +1,8 @@
 config {
   type: "incremental",
   schema: "cst_banking",
-  name: "LGSOPERACIONESME",
-  tags: ["LGSOPERACIONESME_consumo_cst", "cst"],
-  uniqueKey: ["NUMRUT", "CUENTA"],
+  name: "CCEPRDP03_DTA",
+  tags: ["CCEPRDP03_DTA_consumo_cst", "cst"],
   bigquery: {
     partitionBy: "FECHA_PROCESO"
   }
@@ -19,6 +18,6 @@ UNION ALL
 
 -- Parte 2: interfaz on-premise estandarizada (solo si interface_enabled != false)
 SELECT *
-FROM ${ref("STD_LGSOPERACIONESME")}
+FROM ${ref("STD_CCEPRDP03_DTA")}
 WHERE FECHA_PROCESO = DATE('${dataform.projectConfig.vars.process_date}')
 `)}

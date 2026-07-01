@@ -1,0 +1,41 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_00120_IDX",
+    tags: ["00120_IDX_std", "std"],
+    
+  uniqueKey: ["RUT_CRUCE", "NUM_ID_PRO"],
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+    assertions: {
+        
+  uniqueKey: ["RUT_CRUCE", "NUM_ID_PRO"],
+    }
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    RUT_CRUCE,
+		SAFE_CAST(COD_PROD AS NUMERIC) AS COD_PROD,
+		SAFE_CAST(NUM_ID_PRO AS NUMERIC) AS NUM_ID_PRO,
+		SAFE_CAST(STATUS_PROD AS NUMERIC) AS STATUS_PROD,
+		TIPO_CUENTA,
+		SAFE_CAST(SUCURSAL AS NUMERIC) AS SUCURSAL,
+		SAFE_CAST(TIPO_MONEDA AS NUMERIC) AS TIPO_MONEDA,
+		TIPO_TASA,
+		SAFE_CAST(TASA AS NUMERIC) AS TASA,
+		SAFE_CAST(REAJUSTABILIDAD AS NUMERIC) AS REAJUSTABILIDAD,
+		SAFE_CAST(FECHA_EMI AS NUMERIC) AS FECHA_EMI,
+		SAFE_CAST(FECHA_VCTO AS NUMERIC) AS FECHA_VCTO,
+		SAFE_CAST(MONTO_VIGENTE AS NUMERIC) AS MONTO_VIGENTE,
+		REFERENCIA_CLI,
+		NOMBRE_EJE,
+		EMAIL,
+		TIPO_CUENTA_EMP,
+		RUT_PATRO,
+		SAFE_CAST(PROCESADO AS NUMERIC) AS PROCESADO
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_00120_IDX_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

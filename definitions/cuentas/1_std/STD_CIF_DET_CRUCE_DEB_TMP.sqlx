@@ -1,0 +1,21 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_CIF_DET_CRUCE_DEB_TMP",
+    tags: ["CIF_DET_CRUCE_DEB_TMP_std", "std"],
+    
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    SAFE_CAST(CRUCE_NUM_TARJETA AS NUMERIC) AS CRUCE_NUM_TARJETA,
+		SAFE_CAST(CRUCE_NUM_OPERAC AS NUMERIC) AS CRUCE_NUM_OPERAC,
+		CRUCE_FLG_CLIEN_PPAL,
+		SAFE_CAST(CRUCE_COD_REG_STAT AS NUMERIC) AS CRUCE_COD_REG_STAT,
+		SAFE_CAST(CRUCE_COD_REG_LOGOS AS NUMERIC) AS CRUCE_COD_REG_LOGOS
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_CIF_DET_CRUCE_DEB_TMP_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

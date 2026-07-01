@@ -1,0 +1,21 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_C028U",
+    tags: ["C028U_std", "std"],
+    
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    CUENTA_IMP,
+		SAFE_CAST(CANCHQ_IMP AS NUMERIC) AS CANCHQ_IMP,
+		NOMBR1_IMP,
+		NOMBR2_IMP,
+		SUCENT_IMP
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_C028U_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

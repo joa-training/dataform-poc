@@ -1,0 +1,25 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_CVISAL_H_TXT",
+    tags: ["CVISAL_H_TXT_std", "std"],
+    
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    SAFE_CAST(Tipo_Registro AS NUMERIC) AS Tipo_Registro,
+		Rut_Titular,
+		SAFE_CAST(Cuenta_vista AS NUMERIC) AS Cuenta_vista,
+		SAFE_CAST(Saldo_cta_vista AS NUMERIC) AS Saldo_cta_vista,
+		SAFE_CAST(Retenciones AS NUMERIC) AS Retenciones,
+		SAFE_CAST(Saldo_disponible AS NUMERIC) AS Saldo_disponible,
+		Fecha_de_proceso,
+		Fec_Ult_Cartola,
+		filler
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_CVISAL_H_TXT_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

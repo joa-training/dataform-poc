@@ -1,0 +1,32 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_CCXD50_SEQ",
+    tags: ["CCXD50_SEQ_std", "std"],
+    
+  uniqueKey: ["RUT-SAL"],
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+    assertions: {
+        
+  uniqueKey: ["RUT-SAL"],
+    }
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    RUT_SAL,
+		NOMBRE_SAL,
+		SISTEMA_SAL,
+		SAFE_CAST(PRODUCTO_SAL AS NUMERIC) AS PRODUCTO_SAL,
+		SAFE_CAST(MB1_SAL AS NUMERIC) AS MB1_SAL,
+		SAFE_CAST(SUCURSAL_SAL AS NUMERIC) AS SUCURSAL_SAL,
+		IDENTIFIC_SAL,
+		SAFE_CAST(MONEDA_SAL AS NUMERIC) AS MONEDA_SAL,
+		SIGNO_SAL,
+		SAFE_CAST(SALDO_SAL AS NUMERIC) AS SALDO_SAL
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_CCXD50_SEQ_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

@@ -1,0 +1,22 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_RELAC_FAMILYCARD_DAT",
+    tags: ["RELAC_FAMILYCARD_DAT_std", "std"],
+    
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    SAFE_CAST(CUENTA_CV_REL AS NUMERIC) AS CUENTA_CV_REL,
+		SAFE_CAST(CUENTA_CC_REL AS NUMERIC) AS CUENTA_CC_REL,
+		SAFE_CAST(FECHA_ABO_REL AS NUMERIC) AS FECHA_ABO_REL,
+		NUM_IDEN_ADICI,
+		SAFE_CAST(COD_REG_STATU AS NUMERIC) AS COD_REG_STATU,
+		SAFE_CAST(COD_REG_LOG AS NUMERIC) AS COD_REG_LOG
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_RELAC_FAMILYCARD_DAT_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

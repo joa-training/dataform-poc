@@ -1,0 +1,24 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_CCXPRDP03_DTA",
+    tags: ["CCXPRDP03_DTA_std", "std"],
+    
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    SAFE_CAST(MONEDA_PRD AS NUMERIC) AS MONEDA_PRD,
+		SAFE_CAST(LOCALI_PRD AS NUMERIC) AS LOCALI_PRD,
+		SAFE_CAST(ORIGEN_PRD AS NUMERIC) AS ORIGEN_PRD,
+		SAFE_CAST(SUCURS_PRD AS NUMERIC) AS SUCURS_PRD,
+		SAFE_CAST(HABILE_PRD AS NUMERIC) AS HABILE_PRD,
+		SAFE_CAST(FECCAL_PRD AS NUMERIC) AS FECCAL_PRD,
+		SAFE_CAST(ULTCON_PRD_TOTAL AS NUMERIC) AS ULTCON_PRD_TOTAL,
+		PROCAL_PRD
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_CCXPRDP03_DTA_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

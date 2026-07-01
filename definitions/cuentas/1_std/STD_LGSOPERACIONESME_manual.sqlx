@@ -1,0 +1,32 @@
+config {
+  type: "table",
+  schema: constants.DEST_STD,
+  name: "STD_LGSOPERACIONESME",
+  tags: ["aaaammddLGSOPERACIONESME_std", "std"],
+  description: "STD LGSOPERACIONESME: estandariza la interfaz ON-PREMISE cargada en raw desde landing (raw_aaaammddLGSOPERACIONESME_daily). Limpia campos, separa el dígito verificador del RUT y normaliza nombres de columna. El cruce con el maestro se hace recién en el CST (consumo).",
+  bigquery: {
+    partitionBy: "FECHA_PROCESO"
+  },
+  assertions: {
+    uniqueKey: ["NUMRUT", "CODIGO"],
+    nonNull: ["FECHA_PROCESO", "NUMRUT", "CODIGO"]
+  }
+}
+ 
+-- ════════════════════════════════════════════════════════════════
+-- Fuente: interfaz on-premise cargada por la ingesta fixed-width.
+--   load_date -> FECHA_PROCESO
+--   La interfaz conserva sus nombres nativos (CUENTA, SUCURSAL, etc.).
+--   NUMRUT del archivo viene como <numero><DV> concatenado (sin guión):
+--   se separa el último carácter como dígito verificador (DIGRUT).
+-- ════════════════════════════════════════════════════════════════
+SELECT
+  CAST(load_date AS DATE)                                        AS FECHA_PROCESO,
+  SUBSTR(TRIM(NUMRUT), 1, GREATEST(LENGTH(TRIM(NUMRUT)) - 1, 0)) AS NUMRUT,
+  RIGHT(TRIM(NUMRUT), 1)                                         AS DIGRUT,
+  TRIM(CODIGO)                                                   AS CODIGO,
+  TRIM(FECHA_INI)                                                AS FECHA_INI,
+  TRIM(FECHA_TER)                                                AS FECHA_TER,
+  TRIM(CAUSA_CIE)                                                AS CAUSA_CIE,
+  TRIM(SUCURSAL)                                                 AS SUCURSAL
+FROM ${ref("raw_aaaammddLGSOPERACIONESME_daily")}

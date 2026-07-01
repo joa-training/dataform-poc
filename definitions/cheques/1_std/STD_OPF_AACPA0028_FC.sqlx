@@ -1,0 +1,34 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_OPF_AACPA0028_FC",
+    tags: ["OPF_AACPA0028_FC_std", "std"],
+    
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    P_TIPREG,
+		P_TIPDOC,
+		SAFE_CAST(P_CORREL AS NUMERIC) AS P_CORREL,
+		P_RUTNUM,
+		P_RUTDIG,
+		P_CALJUR,
+		P_NOM,
+		P_CODOFI,
+		P_NOMOFI,
+		P_CODPLA,
+		P_NOMPLA,
+		P_MONEDA,
+		P_MONTO,
+		P_NUMIDE,
+		P_TIPCRE,
+		P_FECVEN,
+		P_FECPAG,
+		P_FILLER_1
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_OPF_AACPA0028_FC_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

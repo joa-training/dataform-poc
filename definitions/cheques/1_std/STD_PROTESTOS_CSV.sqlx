@@ -1,0 +1,39 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_PROTESTOS_CSV",
+    tags: ["PROTESTOS_CSV_std", "std"],
+    
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    FECHA,
+		LIBRO,
+		SAFE_CAST(PERIODOD AS NUMERIC) AS PERIODOD,
+		SAFE_CAST(SUC_ AS NUMERIC) AS SUC_,
+		RUT,
+		NOMBRE,
+		SAFE_CAST(Codigo_Pais AS NUMERIC) AS Codigo_Pais,
+		SAFE_CAST(Num_Doc AS NUMERIC) AS Num_Doc,
+		SAFE_CAST(COD_OP_SII AS NUMERIC) AS COD_OP_SII,
+		SAFE_CAST(Fecha_Formalizacion AS NUMERIC) AS Fecha_Formalizacion,
+		Fecha_Vencimiento,
+		Cod_Eximitoria,
+		Monto_exento,
+		SAFE_CAST(Monto AS NUMERIC) AS Monto,
+		Tasa,
+		SAFE_CAST(Monto_Impuesto AS NUMERIC) AS Monto_Impuesto,
+		Imp_Val,
+		Dfi_Impto,
+		Num_Liq,
+		Cod_Mod_generador,
+		Num_Asiento,
+		Num_Folio,
+		Liq_trs
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_PROTESTOS_CSV_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

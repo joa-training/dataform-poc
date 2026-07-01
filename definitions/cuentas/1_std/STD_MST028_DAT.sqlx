@@ -1,0 +1,21 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_MST028_DAT",
+    tags: ["MST028_DAT_std", "std"],
+    
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    SAFE_CAST(CUENTA AS NUMERIC) AS CUENTA,
+		SAFE_CAST(TIPO_CUENTA AS NUMERIC) AS TIPO_CUENTA,
+		SAFE_CAST(MONEDA AS NUMERIC) AS MONEDA,
+		SAFE_CAST(OFICINA AS NUMERIC) AS OFICINA,
+		SAFE_CAST(ESTADO AS NUMERIC) AS ESTADO
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_MST028_DAT_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')
