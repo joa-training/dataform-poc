@@ -1,0 +1,17 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_MNONP_CSV",
+    tags: ["MNONP_CSV_std", "std"],
+    
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_MNONP_CSV_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

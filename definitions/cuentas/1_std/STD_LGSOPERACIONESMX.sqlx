@@ -2,8 +2,8 @@
 config {
     type: "incremental",
     schema: constants.DEST_STD,
-    name: "STD_LGSOPERACIONESME",
-    tags: ["LGSOPERACIONESME_std", "std"],
+    name: "STD_LGSOPERACIONESMX",
+    tags: ["LGSOPERACIONESMX_std", "std"],
     
   uniqueKey: ["NUMRUT", "CUENTA"],
     bigquery: {
@@ -25,5 +25,5 @@ SELECT
 		SAFE_CAST(FECHA_TER AS NUMERIC) AS FECHA_TER,
 		CAUSA_CIE,
 		SAFE_CAST(SUCURSAL AS NUMERIC) AS SUCURSAL
-FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_LGSOPERACIONESME_daily`
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_LGSOPERACIONESMX_daily`
 WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

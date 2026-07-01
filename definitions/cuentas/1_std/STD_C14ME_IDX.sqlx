@@ -1,0 +1,20 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_C14ME_IDX",
+    tags: ["C14ME_IDX_std", "std"],
+    
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    SAFE_CAST(C14_FECHA AS NUMERIC) AS C14_FECHA,
+		SAFE_CAST(C14_BANCO AS NUMERIC) AS C14_BANCO,
+		SAFE_CAST(C14_MONEDA AS NUMERIC) AS C14_MONEDA,
+		SAFE_CAST(C14_SALDO AS NUMERIC) AS C14_SALDO
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_C14ME_IDX_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

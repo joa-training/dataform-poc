@@ -1,0 +1,23 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_00101_IDX",
+    tags: ["00101_IDX_std", "std"],
+    
+  uniqueKey: ["RUT_AUXILIAR"],
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+    assertions: {
+        
+  uniqueKey: ["RUT_AUXILIAR"],
+    }
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_00101_IDX_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

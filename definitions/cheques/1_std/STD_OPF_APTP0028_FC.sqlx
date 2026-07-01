@@ -1,0 +1,35 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_OPF_APTP0028_FC",
+    tags: ["OPF_APTP0028_FC_std", "std"],
+    
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    SAL_TIP_R_2,
+		SAL_TIP_D_2,
+		SAFE_CAST(SAL_NUM_C AS NUMERIC) AS SAL_NUM_C,
+		SAL_NUM_R,
+		SAL_DIG_R,
+		SAL_CAL_J,
+		SAL_NOM_T,
+		SAL_COD_S,
+		SAL_GLO_S,
+		SAL_LOC_S,
+		SAL_GLO_L,
+		SAL_MONED,
+		SAL_MON_C,
+		SAL_NUM_CQ,
+		SAL_COD_P,
+		SAL_AA_P,
+		SAL_MM_P,
+		SAL_DD_P,
+		SAL2_FILLER
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_OPF_APTP0028_FC_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

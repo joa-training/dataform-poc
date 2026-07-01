@@ -1,0 +1,26 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_00250_AUX_IDX",
+    tags: ["00250_AUX_IDX_std", "std"],
+    
+  uniqueKey: ["RUT_EMP"],
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+    assertions: {
+        
+  uniqueKey: ["RUT_EMP"],
+    }
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    RUT_AUXILIAR,
+		SAFE_CAST(COD_PROD_AUXILIAR AS NUMERIC) AS COD_PROD_AUXILIAR,
+		NOMBRE_AUXILIAR,
+		SAFE_CAST(PROCESADO_AUXILIAR AS NUMERIC) AS PROCESADO_AUXILIAR
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_00250_AUX_IDX_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

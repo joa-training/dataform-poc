@@ -1,9 +1,8 @@
 config {
   type: "incremental",
   schema: "cst_banking",
-  name: "LGSOPERACIONESME",
-  tags: ["LGSOPERACIONESME_consumo_cst", "cst"],
-  uniqueKey: ["NUMRUT", "CUENTA"],
+  name: "C028P",
+  tags: ["C028P_consumo_cst", "cst"],
   bigquery: {
     partitionBy: "FECHA_PROCESO"
   }
@@ -11,7 +10,7 @@ config {
 
 -- Parte 1: maestro
 SELECT *
-FROM `${dataform.projectConfig.defaultDatabase}.std_banking.OPF_CASA_MAS`
+FROM `${dataform.projectConfig.defaultDatabase}.std_banking.TODO_maestro_table`
 WHERE CAST(FECHA_PROCESO AS DATE) = DATE('${dataform.projectConfig.vars.process_date}')
 
 ${when(dataform.projectConfig.vars.interface_enabled !== "false", `
@@ -19,6 +18,6 @@ UNION ALL
 
 -- Parte 2: interfaz on-premise estandarizada (solo si interface_enabled != false)
 SELECT *
-FROM ${ref("STD_LGSOPERACIONESME")}
+FROM ${ref("STD_C028P")}
 WHERE FECHA_PROCESO = DATE('${dataform.projectConfig.vars.process_date}')
 `)}

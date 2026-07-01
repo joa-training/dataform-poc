@@ -1,9 +1,9 @@
 config {
   type: "incremental",
   schema: "cst_banking",
-  name: "LGSOPERACIONESME",
-  tags: ["LGSOPERACIONESME_consumo_cst", "cst"],
-  uniqueKey: ["NUMRUT", "CUENTA"],
+  name: "CIF_CRUCE_TCV1_H_TMP",
+  tags: ["CIF_CRUCE_TCV1_H_TMP_consumo_cst", "cst"],
+  uniqueKey: ["CRUCE-RUT"],
   bigquery: {
     partitionBy: "FECHA_PROCESO"
   }
@@ -19,6 +19,6 @@ UNION ALL
 
 -- Parte 2: interfaz on-premise estandarizada (solo si interface_enabled != false)
 SELECT *
-FROM ${ref("STD_LGSOPERACIONESME")}
+FROM ${ref("STD_CIF_CRUCE_TCV1_H_TMP")}
 WHERE FECHA_PROCESO = DATE('${dataform.projectConfig.vars.process_date}')
 `)}

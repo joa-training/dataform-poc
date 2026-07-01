@@ -1,0 +1,23 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_ITF_EMIVV_SEQ",
+    tags: ["ITF_EMIVV_SEQ_std", "std"],
+    
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    SAFE_CAST(CUENTA_2_TITULAR AS NUMERIC) AS CUENTA_2_TITULAR,
+		RUT_TOMADOR,
+		TOMADOR_X,
+		SEGMENTO_X,
+		SAFE_CAST(FECHA_ING AS NUMERIC) AS FECHA_ING,
+		SAFE_CAST(VALOR AS NUMERIC) AS VALOR,
+		ESTADO
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_ITF_EMIVV_SEQ_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

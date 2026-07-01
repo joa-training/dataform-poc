@@ -1,0 +1,17 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_TRAFON_BO",
+    tags: ["TRAFON_BO_std", "std"],
+    
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_TRAFON_BO_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')

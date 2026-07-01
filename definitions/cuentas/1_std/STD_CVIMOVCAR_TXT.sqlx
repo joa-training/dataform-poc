@@ -1,0 +1,23 @@
+
+config {
+    type: "incremental",
+    schema: constants.DEST_STD,
+    name: "STD_CVIMOVCAR_TXT",
+    tags: ["CVIMOVCAR_TXT_std", "std"],
+    
+    bigquery: {
+        partitionBy: "FECHA_PROCESO"
+     },
+    
+}
+SELECT
+    CAST(load_date AS DATE) AS FECHA_PROCESO,
+    SAFE_CAST(CUENTA_SAL AS NUMERIC) AS CUENTA_SAL,
+		SAFE_CAST(MONTO_SAL AS NUMERIC) AS MONTO_SAL,
+		SAFE_CAST(REFEREN_SAL AS NUMERIC) AS REFEREN_SAL,
+		CODIGO_SAL,
+		SAFE_CAST(FECHA_SAL AS NUMERIC) AS FECHA_SAL,
+		SUC_SAL,
+		GLOSA_SAL
+FROM `${dataform.projectConfig.defaultDatabase}.raw_banking.raw_CVIMOVCAR_TXT_daily`
+WHERE load_date = DATE('${dataform.projectConfig.vars.process_date}')
